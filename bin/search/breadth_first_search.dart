@@ -17,12 +17,12 @@ void main() {
   //     2      5
   final matrix = <List<int>>[
     [1, 2], // 0 node
-    [4],    // 1 node
+    [4], // 1 node
     [3, 5], // 2 node
-    [4],    // 3 node
-    [6],    // 4 node
-    [4],    // 5 node
-    [],     // 6 node
+    [4], // 3 node
+    [6], // 4 node
+    [4], // 5 node
+    [], // 6 node
   ];
 
   print(_breadthFirstSearch(matrix: matrix, point: 6));
@@ -37,24 +37,21 @@ List<int> _breadthFirstSearch({
   required int point,
 }) {
   // set global queue
-  final queue = Queue<List<int>>();
-  
+  final queue = Queue<List<Node>>();
+
   // hash whe key is node and value is parent scope
-  final path = {};
   final checked = Set();
-  
+
   // cursor for scope
-  int cursor = 0;
-  queue.add(matrix.first);
+  // int cursor = 0;
+  queue.add(matrix.first.map((e) => Node(e, Node(0, null))).toList());
 
   while (queue.isNotEmpty) {
     // take the scope
     final neighbors = queue.removeFirst();
-    cursor = matrix.indexOf(neighbors);
 
     // iterate through the scope
     for (var neighbor in neighbors) {
-      
       // does alredy checked?
       if (checked.contains(neighbor)) {
         continue;
@@ -62,25 +59,28 @@ List<int> _breadthFirstSearch({
         checked.add(neighbor);
       }
 
-      path[neighbor] = cursor;
-      
       // if found the node just revert path by parents
-      if (neighbor == point) {
-        int? node = point;
-        final result = [point];
-        while (path[node] != null) {
-          result.add(path[node]);
-          node = result.last;
+      if (neighbor.value == point) {
+        Node? node = neighbor;
+        final result = <int>[];
+        while (node != null) {
+          result.add(node.value);
+          node = node.prev;
         }
 
         return result;
       } else {
-        
         // add next scope to queue
-        queue.add(matrix[neighbor]);
+        queue.add(matrix[neighbor.value].map((e) => Node(e, neighbor)).toList());
       }
     }
   }
 
   return [];
+}
+
+class Node {
+  final Node? prev;
+  final int value;
+  const Node(this.value, this.prev);
 }
