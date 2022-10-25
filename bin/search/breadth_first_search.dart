@@ -4,8 +4,8 @@ import 'dart:collection';
 /// Name:         Breadth-first search (поиск в ширину)
 /// Apply:        Graphs
 /// Reason:       Find shorted way by nodes count
-/// Restriction:  value fron 1 to infinity
-/// Complexity:   O(n)
+/// Restriction:  Directed graph
+/// Complexity:   O(E + V), E - verticles, V - edges
 ///
 void main() {
   //      1     4
