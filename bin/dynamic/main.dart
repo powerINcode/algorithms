@@ -1,14 +1,9 @@
-import 'dart:collection';
-
 ///
 /// Name:         Dynamic algorithm
 /// Description:  Algorithms to solve required to split task on smaller tasks and resolve them first
-/// Task:         You have phone with battery capacity 50mAh and which acticities will allow you make more
-///
-/// read a book   - 10 mAh
-/// watch youtube - 40 mAh
-/// play game     - 50 mAh
-
+///               Important: each small task should be indepepended(exclude such situation when after some steps value can change)
+/// Task:         You have vah with 4 kg capacity and you have to decide what items you can take to acieve maximum price
+///               Guitar(1kg, 1500$), Stereo(4kg, 3000$), Laptop(3kg, 2000$), IPhone(1kg, 2000$)
 void main() {
   final capacity = 4;
   final guitar = 'guitar';
@@ -60,11 +55,15 @@ void main() {
 
   for (var row = 0; row < matrix.length; row++) {
     for (var cell = 0; cell < capacity; cell++) {
+      // collect all info regarding the item
       final item = items[row]!;
       final currentSlotWeight = slotWeight[cell];
       final itemWeight = itemWeights[item]!;
       final itemPrice = costs[item]!;
 
+      // if item weight < current slot max weight then we have to add value from remain size
+      // example, weight 3 and slot weight is 4, remain amount is 1, we check what was filled
+      // before for 1 size
       if(itemWeight < currentSlotWeight) {
         if(row > 0) {
           final remainWeight = currentSlotWeight - itemWeight;
@@ -75,6 +74,8 @@ void main() {
         }
       }
 
+       // if item weight == current slot max weight then we compare value from prevouse calculation
+       // if current value beigger then we write it if not the prev value
       if(itemWeight == currentSlotWeight) {
         if(row > 0) {
           final prevItem = matrix[row - 1][cell];
@@ -89,6 +90,8 @@ void main() {
         }
       }
 
+      //if item weight > current slot max weight then we just use previouse wrote value because of
+      // current slot is too small for item
       if(itemWeight > currentSlotWeight) {
         matrix[row][cell] = matrix[row - 1][cell];
       }
