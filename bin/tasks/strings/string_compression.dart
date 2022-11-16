@@ -20,12 +20,10 @@ String _compress(String input) {
 
   String currentChar = '';
   int currentIndex = 0;
-  int count = -1;
   for (int i = 0; i < input.length; i++) {
     final char = input[i];
     if (currentChar.isEmpty) {
       currentChar = char;
-      count++;
     }
 
     if (currentChar != input[i]) {
